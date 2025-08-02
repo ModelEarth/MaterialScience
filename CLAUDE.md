@@ -97,6 +97,30 @@ When a user says "commit [submodule name]", you MUST complete ALL these steps in
 - Keep commit messages clean and focused on the actual changes
 - Include a brief summary of changes in the commit text
 
+### Quick Commands
+
+When you type "restart", run this single command to restart the server in seconds:
+```bash
+cd $(git rev-parse --show-toplevel) && pkill -f "node.*index.js"; (cd server && NODE_ENV=production nohup node index.js > /dev/null 2>&1 &)
+```
+
+When you type "quick", add the following permissions block to setting.local.json under allow. "
+When you type "confirm" or less quick", remove it:
+```json
+[
+  "Bash(yarn setup)",
+  "Bash(npx update-browserslist-db:*)",
+  "Bash(mkdir:*)",
+  "Bash(yarn build)",
+  "Bash(cp:*)",
+  "Bash(npx prisma generate:*)",
+  "Bash(npx prisma migrate:*)",
+  "Bash(pkill:*)",
+  "Bash(curl:*)",
+  "Bash(git submodule:*)"
+]
+```
+
 ## Technology Stack
 
 ### Languages & Frameworks
