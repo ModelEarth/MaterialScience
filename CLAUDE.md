@@ -67,15 +67,29 @@ cd ..
 ```
 
 ### Submodule Management
-- "commit [submodule name]" should perform these steps in sequence:
-  1. Navigate to the submodule directory (`cd [submodule name]`)
-  2. Add and commit changes in the submodule (`git add . && git commit -m "..."`)
-  3. Push submodule changes to GitHub (`git push`)
-  4. Return to parent directory (`cd ..`)
-  5. Add and commit the submodule reference update (`git add [submodule name] && git commit -m "Update [submodule name] submodule"`)
-  6. Push parent repository changes to GitHub (`git push`)
-  7. If user lacks collaborator privileges for upstream parent, submit a PR instead
+
+#### IMPORTANT: "commit [submodule name]" Command Requirements
+When a user says "commit [submodule name]", you MUST complete ALL these steps in sequence:
+
+1. **Navigate to submodule**: `cd [submodule name]`
+2. **Add and commit in submodule**: `git add . && git commit -m "Description of changes"`
+3. **Push submodule changes**: `git push` 
+4. **Return to parent**: `cd ..`
+5. **Add submodule reference**: `git add [submodule name]`
+6. **Commit parent update**: `git commit -m "Update [submodule name] submodule"`
+7. **Push parent changes**: `git push`
+8. **If no push access**: Submit PR for parent repository instead
+
+**⚠️ CRITICAL**: Steps 5-7 are REQUIRED. Simply committing to the submodule is incomplete - the parent repository must also be updated with the new submodule reference.
+
+#### Quick Commands for Submodules
+- **"commit [submodule name]"**: Complete 8-step workflow above
+- **"push [submodule name]"**: Only push submodule changes (steps 1-3)
+- **"PR [submodule name]"**: Create pull request workflow
+
+#### Additional Notes
 - Allow up to 12 minutes to pull repos (large repositories)
+- Always verify both submodule AND parent repository are updated
 
 ### Git Commit Guidelines
 - **NEVER add Claude Code attribution or co-authored-by lines to commits**
