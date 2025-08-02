@@ -1,0 +1,48 @@
+[submodule "exiobase"]
+	path = exiobase
+	url = https://github.com/ModelEarth/exiobase.git
+[submodule "profile"]
+	path = profile
+	url = https://github.com/ModelEarth/profile.git
+[submodule "io"]
+	path = io
+	url = https://github.com/ModelEarth/io.git
+[submodule "useeio.js"]
+	path = useeio.js
+	url = https://github.com/ModelEarth/useeio.js.git
+[submodule "useeio-widgets"]
+	path = useeio-widgets
+	url = https://github.com/ModelEarth/useeio-widgets.git
+[submodule "useeio-widgets-without-react"]
+	path = useeio-widgets-without-react
+	url = https://github.com/ModelEarth/useeio-widgets-without-react.git
+[submodule "useeiopy"]
+	path = useeiopy
+	url = https://github.com/ModelEarth/useeiopy.git
+[submodule "useeio_api"]
+	path = useeio_api
+	url = https://github.com/ModelEarth/useeio_api.git
+[submodule "useeio"]
+	path = useeio
+	url = https://github.com/ModelEarth/useeio.git
+[submodule "useeior"]
+	path = useeior
+	url = https://github.com/ModelEarth/useeior.git
+[submodule "useeio-state"]
+	path = useeio-state
+	url = https://github.com/ModelEarth/useeio-state.git
+[submodule "useeio-json"]
+	path = useeio-json
+	url = https://github.com/ModelEarth/useeio-json.git
+[submodule "localsite"]
+	path = localsite
+	url = https://github.com/ModelEarth/localsite.git
+[submodule "products"]
+	path = products
+	url = https://github.com/ModelEarth/products.git
+[submodule "products-data"]
+	path = products-data
+	url = https://github.com/ModelEarth/products-data.git
+[submodule "panels"]
+	path = panels
+	url = https://github.com/ModelEarth/panels.git
