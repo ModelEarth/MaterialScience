@@ -117,7 +117,13 @@ When you type "confirm" or less quick", remove it:
   "Bash(npx prisma migrate:*)",
   "Bash(pkill:*)",
   "Bash(curl:*)",
-  "Bash(git submodule:*)"
+  "Bash(git submodule add:*)",
+  "Bash(rm:*)",
+  "Bash(find:*)",
+  "Bash(ls:*)",
+  "Bash(git add:*)",
+  "Bash(git commit:*)",
+  "Bash(git push:*)"
 ]
 ```
 
