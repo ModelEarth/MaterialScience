@@ -46,3 +46,6 @@
 [submodule "panels"]
 	path = panels
 	url = https://github.com/ModelEarth/panels.git
+[submodule "team"]
+	path = team
+	url = https://github.com/ModelEarth/team.git
