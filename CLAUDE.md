@@ -87,6 +87,8 @@ When a user says "commit [submodule name]", you MUST complete ALL these steps in
 - **"push [submodule name]"**: Only push submodule changes (steps 1-3)
 - **"PR [submodule name]"**: Create pull request workflow
 
+When displaying "Issue Resolved" use the same checkbox icon as "Successfully Updated"
+
 #### Additional Notes
 - Allow up to 12 minutes to pull repos (large repositories)
 - Always verify both submodule AND parent repository are updated
