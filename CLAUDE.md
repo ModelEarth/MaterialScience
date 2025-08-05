@@ -16,6 +16,7 @@ This is a comprehensive Multi-Region Input-Output (MRIO) system using 721 enviro
 
 ### Key Submodules
 - **localsite**: Static web framework for navigation and display
+- **team**: Rust API for Azure Postgres
 - **exiobase**: Python MRIO data processing pipeline in exiobase/tradeflow
 - **products**: Product-level environmental impact data pull from BuildingTransparancy API
 - **io**: Input-output charts and visualization tools
