@@ -1,6 +1,6 @@
-# CLAUDE.md
+# MRIO CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this MaterialScience webroot repo for Multi-Region Input-Output (MRIO).
 
 ## Repository Architecture
 

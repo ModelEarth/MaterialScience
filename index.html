@@ -3,24 +3,260 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>MaterialScience with MRIO</title>
+<title>MaterialScience with MRIO, Mario, Pymrio, Exiobase, USEEIO</title>
 <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link type="text/css" rel="stylesheet" href="localsite/css/base.css" id="/localsite/css/base.css" />
-<script type="text/javascript" src="localsite/js/localsite.js?showheader=true&showsearch=true"></script>
+<link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
+<script type="text/javascript" src="/localsite/js/localsite.js?showheader=true&showsearch=true"></script>
+<script type="text/javascript" src="team/js/common.js"></script>
+
+<!-- Standalone Navigation -->
+<!--
+<link rel="stylesheet" href="team/css/standalone-nav.css">
+<script src="team/js/standalone-nav.js"></script>
+-->
+
+<style>
+.content th {
+  text-align: left;
+}
+.content td {
+  padding-right: 10px;
+}
+
+.tab-container {
+  margin-top: 20px;
+}
+
+.tab-nav {
+  display: flex;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 0;
+}
+
+.tab-button {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-right: 2px;
+}
+
+.tab-button:hover {
+  background: #e9ecef;
+}
+
+.tab-button.active {
+  color: white;
+}
+
+.tab-button.active[onclick="showTab('local')"] {
+  background: lightslategray;
+  border-color: lightslategray;
+}
+
+.tab-button.active[onclick="showTab('team')"] {
+  background: lightsteelblue;
+  border-color: lightsteelblue;
+}
+
+.tab-button.active[onclick="showTab('claude')"] {
+  background: #8FBC8F;
+  border-color: #8FBC8F;
+}
+
+.tab-button.active[onclick="showTab('readme')"] {
+  background: lightcoral;
+  border-color: lightcoral;
+}
+
+.tab-button.active[onclick="showTab('all')"] {
+  background: #6c757d;
+  border-color: #6c757d;
+}
+
+.tab-content {
+  margin-top: 0;
+  border-topX: none !important;
+}
+
+.tab-content:not(.active) {
+  display: none;
+}
+</style>
 
 <script>
-loadMarkdown("README.md", "readmeDiv", "_parent");
+// Create OS detection panel using shared function
+autoCreateOSDetectionPanel('#commonSetupDiv');
+
+// We could lazy load these when tabs clicked
+//loadMarkdown("local.md", "localDiv", "_parent"); // Not created
 loadMarkdown("CLAUDE.md", "claudeDiv", "_parent");
+loadMarkdown("README.md", "readmeDiv", "_parent");
+loadMarkdown("team/CLAUDE.md", "teamDiv", "_parent");
+
+// Utility function to show/hide tab content
+function toggleTabContent(divname, show) {
+  const element = document.getElementById(divname);
+  if (element) {
+    element.style.display = show ? 'block' : 'none';
+    if (show) {
+      element.classList.add('active');
+    } else {
+      element.classList.remove('active');
+    }
+  }
+}
+
+// Function to update URL hash while preserving other hash parameters
+function updateHash(tabName) {
+  // Don't add hash for default 'local' tab
+  if (tabName === 'local') {
+    // Remove tab parameter if it exists, keep other hash params
+    const currentHash = window.location.hash.substring(1);
+    if (currentHash.includes('tab=')) {
+      const newHash = currentHash.replace(/[&]?tab=[^&]*/, '').replace(/^&/, '');
+      
+      // If no hash parameters remain, remove the # symbol entirely
+      if (!newHash) {
+        window.history.replaceState(null, null, window.location.pathname + window.location.search);
+      } else {
+        window.location.hash = newHash;
+      }
+    }
+    return;
+  }
+  
+  // For other tabs, set the hash cleanly
+  const currentHash = window.location.hash.substring(1);
+  let hashParams = {};
+  
+  // Parse existing hash parameters
+  if (currentHash) {
+    currentHash.split('&').forEach(param => {
+      const [key, value] = param.split('=');
+      if (key && value) {
+        hashParams[key] = decodeURIComponent(value);
+      }
+    });
+  }
+  
+  // Set the new tab
+  hashParams.tab = tabName;
+  
+  // Rebuild hash
+  const newHash = Object.keys(hashParams).map(key => 
+    `${key}=${encodeURIComponent(hashParams[key])}`
+  ).join('&');
+  
+  window.location.hash = newHash;
+}
+
+// Function to get current tab from hash
+function getTabFromHash() {
+  const hash = window.location.hash.substring(1);
+  const match = hash.match(/tab=([^&]*)/);
+  return match ? decodeURIComponent(match[1]) : 'local';
+}
+
+function showTab(tabName, updateUrl = true) {
+  // Check if tab is valid, if not default to 'local' and clear hash
+  const validTabs = ['readme', 'local', 'claude', 'team', 'all'];
+  if (!validTabs.includes(tabName)) {
+    tabName = 'local';
+    if (updateUrl) {
+      updateHash('local'); // This will clear the tab hash
+    }
+  }
+  
+  // Update URL hash if requested
+  if (updateUrl) {
+    updateHash(tabName);
+  }
+  
+  // Remove active class from all buttons and content
+  document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => {
+    toggleTabContent(content.id, false);
+  });
+  
+  // Add active class to appropriate button
+  const button = document.querySelector(`[onclick="showTab('${tabName}')"]`);
+  if (button) button.classList.add('active');
+  
+  // Show appropriate content
+  if (tabName === 'local') {
+    toggleTabContent('localDivHolder', true);
+  } else if (tabName === 'claude') {
+    toggleTabContent('claudeDivHolder', true);
+  } else if (tabName === 'readme') {
+    toggleTabContent('readmeDivHolder', true);
+  } else if (tabName === 'team') {
+    toggleTabContent('teamDivHolder', true);
+  } else if (tabName === 'all') {
+    toggleTabContent('readmeDivHolder', true);
+    toggleTabContent('localDivHolder', true);
+    toggleTabContent('claudeDivHolder', true);
+    toggleTabContent('teamDivHolder', true);
+  }
+}
+
+// Handle hash changes
+function handleHashChange() {
+  const tabName = getTabFromHash();
+  showTab(tabName, false); // Don't update URL since we're responding to hash change
+  
+  // Scroll to top of page when hash changes
+  window.scrollTo(0, 0);
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const initialTab = getTabFromHash();
+  showTab(initialTab, false);
+});
+
+// Listen for hash changes
+window.addEventListener('hashchange', handleHashChange);
 </script>
 
 </head>
 
 <body>
 <div class="content contentpadding large-list">
-  <div id="readmeDiv"></div>
-  <div id="claudeDiv"></div>
+  
+  <!-- Tab Navigation -->
+  <div class="tab-container">
+    <div class="tab-nav">
+      <button class="tab-button" onclick="showTab('readme')">Readme</button>
+      <button class="tab-button active" onclick="showTab('local')">Local Install</button>
+      <button class="tab-button" onclick="showTab('claude')">MRIO Claude</button>
+      <button class="tab-button" onclick="showTab('team')">SQL Team Repo</button>
+      <button class="tab-button" onclick="showTab('all')">All</button>
+    </div>
+    
+    <div id="readmeDivHolder" class="tab-content" style="display:none;border:4px solid lightcoral;padding:20px">
+      <div id="readmeDiv"></div>
+    </div>
+    <div id="localDivHolder" class="tab-content active" style="border:4px solid lightslategray;padding:20px">
+
+      <div id="commonSetupDiv"></div>
+      <div id="localDiv"></div>
+      
+    </div>
+    <div id="claudeDivHolder" class="tab-content" style="display:none;border:4px solid #8FBC8F;padding:20px">
+      <div id="claudeDiv"></div>
+    </div>
+    <div id="teamDivHolder" class="tab-content" style="display:none;border:4px solid lightsteelblue;padding:20px">
+      <div id="teamDiv"></div>
+    </div>
+
+  </div>
 </div>
 </body>
 </html>
